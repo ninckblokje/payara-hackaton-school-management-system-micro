@@ -45,7 +45,7 @@ public class Initialize {
     }
 
     void initializeCourses() {
-        var count = (int) em.createNativeQuery("select count(*) from course").getSingleResult();
+        var count = (long) em.createNativeQuery("select count(*) from course").getSingleResult();
         if (count > 0) {
             return;
         }
@@ -68,7 +68,7 @@ public class Initialize {
     }
 
     void initializeStudent() {
-        var count = (int) em.createNativeQuery("select count(*) from student").getSingleResult();
+        var count = (long) em.createNativeQuery("select count(*) from student").getSingleResult();
         if (count > 0) {
             return;
         }
@@ -92,7 +92,7 @@ public class Initialize {
     }
 
     void initializeTeachers() {
-        var count = (int) em.createNativeQuery("select count(*) from teacher").getSingleResult();
+        var count = (long) em.createNativeQuery("select count(*) from teacher").getSingleResult();
         if (count > 0) {
             return;
         }

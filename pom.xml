@@ -54,6 +54,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>fish.payara.api</groupId>
+            <artifactId>payara-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>
             <scope>provided</scope>
@@ -96,9 +101,9 @@
             <version>${slf4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>fish.payara.api</groupId>
-            <artifactId>payara-api</artifactId>
-            <scope>provided</scope>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
 
@@ -137,12 +142,27 @@
                 <artifactId>payara-micro-maven-plugin</artifactId>
                 <version>${payara-micro-maven-plugin.version}</version>
                 <configuration>
-                    <payaraVersion>${version.payara}</payaraVersion>
+                    <payaraVersion>${payara.version}</payaraVersion>
                     <deployWar>true</deployWar>
                     <commandLineOptions>
                         <option>
                             <key>--autoBindHttp</key>
                         </option>
+                        <option>
+                            <key>--autoBindSsl</key>
+                        </option>
+                        <option>
+                            <key>--postbootcommandfile</key>
+                            <value>src/main/payara/post-boot-commands.txt</value>
+                        </option>
+                        <option>
+                            <key>--logProperties</key>
+                            <value>src/main/payara/logging.properties</value>
+                        </option>
+<!--                        <option>-->
+<!--                            <key>&#45;&#45;logProperties</key>-->
+<!--                            <value>src/main/payara/logging-debug.properties</value>-->
+<!--                        </option>-->
                     </commandLineOptions>
                     <contextRoot>/</contextRoot>
                 </configuration>
