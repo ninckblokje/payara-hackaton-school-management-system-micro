@@ -16,7 +16,6 @@
 
 package ninckblokje.payara.hackaton.sms.resource;
 
-import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -34,7 +33,6 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static ninckblokje.payara.hackaton.sms.Constants.*;
 
 @Path("/login")
-@RolesAllowed({ROLE_ADMINISTRATION, ROLE_STUDENT, ROLE_TEACHTER})
 public class LoginResource {
 
     private final UserService service;
@@ -46,18 +44,20 @@ public class LoginResource {
 
     @GET
     @Produces(APPLICATION_JSON)
-    public UserDTO login(@Context SecurityContext secContext) {
+    @RolesAllowed({ROLE_ADMINISTRATION, ROLE_STUDENT, ROLE_TEACHTER})
+    public UserDTO login(@Context HttpServletRequest request, @Context SecurityContext secContext) {
+        request.getSession(true);
         return service.getUserInformation(secContext);
     }
 
+    @OPTIONS
+    public void options() {}
+
     @GET
     @Path("/logout")
+    @RolesAllowed({ROLE_ADMINISTRATION, ROLE_STUDENT, ROLE_TEACHTER})
     public void logout(@Context HttpServletRequest request) throws ServletException {
         request.getSession().invalidate();
         request.logout();
     }
-
-    @OPTIONS
-    @PermitAll
-    public void options() {}
 }
