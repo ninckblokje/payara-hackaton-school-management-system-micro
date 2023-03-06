@@ -31,9 +31,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentGradedNotificationEvent implements Serializable {
-
-    @NotNull
-    private String emailAddress;
+    
     @NotNull
     private String courseName;
     @NotNull
