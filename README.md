@@ -68,6 +68,7 @@ Other points:
 - The CORS configuration is not yet 100% correct for Firefox.
 - The CDI event `StudentGradedNotificationEvent` was to be used to notify students for example using web sockets or other communiation channels. But the implementation for the notification part has not yet been written.
 - Entities should not be returned by resources, but separate DTO's
+- Tests!!
 
 ## Building
 
