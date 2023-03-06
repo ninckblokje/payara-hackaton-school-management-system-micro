@@ -15,6 +15,8 @@
  */
 
 import { createRouter, createWebHistory } from 'vue-router'
+import Courses from '../views/Courses.vue'
+import GradeCourse from '../views/GradeCourse.vue'
 import HomeView from '../views/HomeView.vue'
 import LogoutView from '../views/LogoutView.vue'
 import MyCources from '../views/MyCourses.vue'
@@ -43,6 +45,16 @@ const router = createRouter({
       path: '/myprofile',
       name: 'myprofile',
       component: MyProfileView
+    },
+    {
+      path: '/courses',
+      name: 'courses',
+      component: Courses
+    },
+    {
+      path: '/courses/:id/grade',
+      name: 'gradecourse',
+      component: GradeCourse
     },
     {
       path: '/logout',

@@ -25,17 +25,20 @@ export default defineComponent({
         return {
             administrationMenuItems: [
               {label: 'Home', icon: 'pi pi-fw pi-home', to: '/'},
+              {label: 'Courses', icon: 'pi pi-fw pi-calendar', to: '/courses'},
               {label: 'Logout', icon: 'pi pi-fw pi-sign-out', to: '/logout'}
             ],
             studentMenuItems: [
-              {label: 'Home', icon: 'pi pi-fw pi-home', to: '/home'},
+              {label: 'Home', icon: 'pi pi-fw pi-home', to: '/'},
               {label: 'My courses', icon: 'pi pi-fw pi-calendar', to: '/mycourses'},
               {label: 'My grades', icon: 'pi pi-fw pi-pencil', to: '/mygrades'},
               {label: 'Profile', icon: 'pi pi-fw pi-user', to: '/myprofile'},
               {label: 'Logout', icon: 'pi pi-fw pi-sign-out', to: '/logout'}
             ],
             teacherMenuItems: [
-              {label: 'Home', icon: 'pi pi-fw pi-home', to: '/home'},
+              {label: 'Home', icon: 'pi pi-fw pi-home', to: '/'},
+              {label: 'Courses', icon: 'pi pi-fw pi-calendar', to: '/courses'},
+              {label: 'Profile', icon: 'pi pi-fw pi-user', to: '/myprofile'},
               {label: 'Logout', icon: 'pi pi-fw pi-sign-out', to: '/logout'}
             ]
         }
