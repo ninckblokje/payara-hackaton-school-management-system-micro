@@ -33,6 +33,8 @@ import java.io.Serializable;
 public class StudentGradedNotificationEvent implements Serializable {
 
     @NotNull
+    private String emailAddress;
+    @NotNull
     private String courseName;
     @NotNull
     @Min(1)

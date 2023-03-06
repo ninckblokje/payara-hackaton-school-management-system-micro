@@ -25,7 +25,7 @@ I decided to build a school management system. Payara set the following function
 
 The backend is based upon Jakarte EE 10 running on Payara Micro 6.2. The frontend is based upon [Vue.js](https://vuejs.org/) with [PrimeVue](https://primevue.org/) written in Typescript. Communication is done using REST API's.
 
-Authentication by the frontend was designed to use cookies, however to use cookies cross site (if the UI is developed locally) the same site attribute should be used. However Payara does not yet offer this ability (see https://github.com/payara/Payara/pull/6200). For now the frontend uses HTTP basic auth for every request..
+Authentication by the frontend was designed to use cookies, however to use cookies cross site (if the UI is developed locally) the same site attribute should be used. However, Payara does not yet offer this ability (see https://github.com/payara/Payara/pull/6200). For now the frontend uses HTTP basic auth for every request...
 
 Security is implemented on the resource and repository layers. For testing purposes the following users will be automatically created by Payara Micro:
 - Administrators:
@@ -64,7 +64,10 @@ Most is not ready and the UI is lacking:
   - For student show grades
   - For teacher show all courses
 
-The CORS configuration is not yet 100% correct for Firefox.
+Other points:
+- The CORS configuration is not yet 100% correct for Firefox.
+- The CDI event `StudentGradedNotificationEvent` was to be used to notify students for example using web sockets or other communiation channels. But the implementation for the notification part has not yet been written.
+- Entities should not be returned by resources, but separate DTO's
 
 ## Building
 
