@@ -18,7 +18,30 @@ package ninckblokje.payara.hackaton.sms;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
+import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
+import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
+import org.eclipse.microprofile.openapi.annotations.info.Info;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
+import org.eclipse.microprofile.openapi.annotations.servers.Server;
 
+@OpenAPIDefinition(
+        info = @Info(
+                title = "Payara Hackaton! School Management System",
+                description = """
+                        This OpenAPI spec describes the API's for the School Management System.
+                        """,
+                version = "1"
+        ),
+        servers = @Server(
+                description = "Default server",
+                url = "https://localhost:8181"
+        )
+)
+@SecurityScheme(
+        securitySchemeName = "basicAuth",
+        scheme = "basic",
+        type = SecuritySchemeType.HTTP
+)
 @ApplicationPath("/api")
 public class SMSApplication extends Application {
 }

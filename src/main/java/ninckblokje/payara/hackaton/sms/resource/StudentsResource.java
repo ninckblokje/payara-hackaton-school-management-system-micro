@@ -24,6 +24,11 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import ninckblokje.payara.hackaton.sms.entity.Student;
 import ninckblokje.payara.hackaton.sms.repository.StudentRepository;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 
 import java.net.URI;
 import java.util.List;
@@ -31,6 +36,7 @@ import java.util.List;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 import static ninckblokje.payara.hackaton.sms.Constants.ROLE_ADMINISTRATION;
+import static org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY;
 
 @Path("/students")
 @Transactional
@@ -44,12 +50,34 @@ public class StudentsResource {
         this.repository = repository;
     }
 
+    @Operation(
+            summary = "Retrieve all students"
+    )
+    @SecurityRequirement(name = "basicAuth")
+    @APIResponse(
+            responseCode = "200",
+            description = "All students",
+            content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = Student.class, type = ARRAY))
+    )
     @GET
     @Produces(APPLICATION_JSON)
     public List<Student> getAll() {
         return repository.findAll();
     }
 
+    @Operation(
+            summary = "Get a student"
+    )
+    @SecurityRequirement(name = "basicAuth")
+    @APIResponse(
+            responseCode = "200",
+            description = "Student",
+            content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = Student.class))
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Student not found"
+    )
     @Path("/{id}")
     @GET
     @Produces(APPLICATION_JSON)
@@ -64,6 +92,19 @@ public class StudentsResource {
         }
     }
 
+    @Operation(
+            summary = "Update a student"
+    )
+    @SecurityRequirement(name = "basicAuth")
+    @APIResponse(
+            responseCode = "200",
+            description = "Updated student",
+            content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = Student.class))
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Student not found"
+    )
     @Path("/{id}")
     @PUT
     @Consumes(APPLICATION_JSON)
@@ -82,6 +123,14 @@ public class StudentsResource {
                 .build();
     }
 
+    @Operation(
+            summary = "Create a student"
+    )
+    @SecurityRequirement(name = "basicAuth")
+    @APIResponse(
+            responseCode = "201",
+            description = "Student created"
+    )
     @POST
     @Consumes(APPLICATION_JSON)
     public Response createNew(@Valid Student student) {

@@ -25,11 +25,18 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
+import ninckblokje.payara.hackaton.sms.dto.StudentCourseDTO;
+import ninckblokje.payara.hackaton.sms.entity.Grade;
 import ninckblokje.payara.hackaton.sms.entity.Student;
 import ninckblokje.payara.hackaton.sms.mapping.CourseMapping;
 import ninckblokje.payara.hackaton.sms.repository.CourseRepository;
 import ninckblokje.payara.hackaton.sms.repository.GradeRepository;
 import ninckblokje.payara.hackaton.sms.repository.StudentRepository;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -37,6 +44,7 @@ import java.util.stream.Collectors;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 import static ninckblokje.payara.hackaton.sms.Constants.ROLE_STUDENT;
+import static org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY;
 
 @Path("/service/student")
 @Transactional
@@ -54,6 +62,19 @@ public class StudentServiceResource {
         this.studentRepository = repository;
     }
 
+    @Operation(
+            summary = "Retrieve enrolled courses"
+    )
+    @SecurityRequirement(name = "basicAuth")
+    @APIResponse(
+            responseCode = "200",
+            description = "Enrolled courses for the logged in student",
+            content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = StudentCourseDTO.class, type = ARRAY))
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Student not found"
+    )
     @GET
     @Path("/enrolledcourses")
     @Produces(APPLICATION_JSON)
@@ -64,6 +85,19 @@ public class StudentServiceResource {
         );
     }
 
+    @Operation(
+            summary = "Retrieve all grades for the logged in student"
+    )
+    @SecurityRequirement(name = "basicAuth")
+    @APIResponse(
+            responseCode = "200",
+            description = "Grades",
+            content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = Grade.class, type = ARRAY))
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Student not found"
+    )
     @GET
     @Path("/grades")
     @Produces(APPLICATION_JSON)
@@ -71,6 +105,19 @@ public class StudentServiceResource {
         return retrieveStudentAndDoWork(secContext.getUserPrincipal().getName(), student -> gradeRepository.findAllForStudent(student));
     }
 
+    @Operation(
+            summary = "Retrieve profile for the logged in student"
+    )
+    @SecurityRequirement(name = "basicAuth")
+    @APIResponse(
+            responseCode = "200",
+            description = "Student profile",
+            content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = Student.class))
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Student not found"
+    )
     @GET
     @Path("/profile")
     @Produces(APPLICATION_JSON)
@@ -78,7 +125,7 @@ public class StudentServiceResource {
         return retrieveStudentAndDoWork(secContext.getUserPrincipal().getName(), student -> student);
     }
 
-    Response retrieveStudentAndDoWork(String name, Function<Student,Object> work) {
+    Response retrieveStudentAndDoWork(String name, Function<Student, Object> work) {
         var optStudent = studentRepository.findStudentByEmailAddress(name);
         if (optStudent.isEmpty()) {
             return Response.status(NOT_FOUND)

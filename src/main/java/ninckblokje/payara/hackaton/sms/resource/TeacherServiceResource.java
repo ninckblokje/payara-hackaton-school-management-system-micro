@@ -26,6 +26,11 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import ninckblokje.payara.hackaton.sms.entity.Teacher;
 import ninckblokje.payara.hackaton.sms.repository.TeacherRepository;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 
 import java.util.function.Function;
 
@@ -44,6 +49,19 @@ public class TeacherServiceResource {
         this.teacherRepository = teacherRepository;
     }
 
+    @Operation(
+            summary = "Retrieve profile for the logged in teacher"
+    )
+    @SecurityRequirement(name = "basicAuth")
+    @APIResponse(
+            responseCode = "200",
+            description = "Teacher profile",
+            content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = Teacher.class))
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Teacher not found"
+    )
     @GET
     @Path("/profile")
     @Produces(APPLICATION_JSON)
@@ -51,7 +69,7 @@ public class TeacherServiceResource {
         return retrieveTeacherAndDoWork(secContext.getUserPrincipal().getName(), teacher -> teacher);
     }
 
-    Response retrieveTeacherAndDoWork(String name, Function<Teacher,Object> work) {
+    Response retrieveTeacherAndDoWork(String name, Function<Teacher, Object> work) {
         var optTeacher = teacherRepository.findTeacherByEmailAddress(name);
         if (optTeacher.isEmpty()) {
             return Response.status(NOT_FOUND)

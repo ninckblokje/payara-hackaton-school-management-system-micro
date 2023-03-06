@@ -64,6 +64,8 @@ Most is not ready and the UI is lacking:
   - For student show grades
   - For teacher show all courses
 
+The CORS configuration is not yet 100% correct for Firefox.
+
 ## Building
 
 To build the project, run the following command: `mvn clean verify`
@@ -78,4 +80,6 @@ To run the project locally from the checkout: `mvn package payara-micro:start`
 
 To run the project from a Docker container: `docker run -p 8080:8080 -p 8181:8181 ninckblokje/school-management-system-micro`
 
-The UI is either availabe on http://localhost:8080 or a development version can be started in the directory `src/main/frontend` with the command: `npm run dev`
+The UI is either availabe on http://localhost:8080 (use Chrome) or a development version can be started in the directory `src/main/frontend` with the command: `npm run dev`
+
+The OpenAPI spec is available on https://localhost:8181/openapi

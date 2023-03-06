@@ -31,6 +31,12 @@ import ninckblokje.payara.hackaton.sms.event.StudentGradedNotificationEvent;
 import ninckblokje.payara.hackaton.sms.mapping.GradeMapping;
 import ninckblokje.payara.hackaton.sms.repository.CourseRepository;
 import ninckblokje.payara.hackaton.sms.repository.GradeRepository;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 
 import java.net.URI;
 import java.util.List;
@@ -58,6 +64,10 @@ public class CoursesResource {
         this.gradeRepository = gradeRepository;
     }
 
+    @Operation(
+            summary = "Retrieve all coures"
+    )
+    @SecurityRequirement(name = "basicAuth")
     @GET
     @Produces(APPLICATION_JSON)
     @RolesAllowed({ROLE_STUDENT, ROLE_TEACHER})
@@ -65,6 +75,22 @@ public class CoursesResource {
         return courseRepository.findAll();
     }
 
+    @Operation(
+            summary = "Retrieve grades for a course"
+    )
+    @SecurityRequirement(name = "basicAuth")
+    @APIResponse(
+            responseCode = "200",
+            description = "Grades",
+            content = @Content(
+                    mediaType = APPLICATION_JSON,
+                    schema = @Schema(implementation = CourseGradeDTO.class, type = SchemaType.ARRAY)
+            )
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Course not found"
+    )
     @GET
     @Path("/{id}/grades")
     @Produces(APPLICATION_JSON)
@@ -83,6 +109,18 @@ public class CoursesResource {
         }
     }
 
+    @Operation(
+            summary = "Retrieve grades for a course"
+    )
+    @SecurityRequirement(name = "basicAuth")
+    @APIResponse(
+            responseCode = "201",
+            description = "Grades added"
+    )
+    @APIResponse(
+            responseCode = "404",
+            description = "Course not found"
+    )
     @POST
     @Path("/{id}/grades")
     @RolesAllowed(ROLE_TEACHER)
