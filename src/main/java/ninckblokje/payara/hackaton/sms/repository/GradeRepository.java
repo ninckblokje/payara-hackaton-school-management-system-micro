@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static ninckblokje.payara.hackaton.sms.Constants.ROLE_STUDENT;
-import static ninckblokje.payara.hackaton.sms.Constants.ROLE_TEACHTER;
+import static ninckblokje.payara.hackaton.sms.Constants.ROLE_TEACHER;
 
 @RequestScoped
 public class GradeRepository {
@@ -36,14 +36,14 @@ public class GradeRepository {
     @PersistenceContext
     EntityManager em;
 
-    @RolesAllowed(ROLE_TEACHTER)
+    @RolesAllowed(ROLE_TEACHER)
     public Stream<Grade> findAllForCourseStream(Course course) {
         return em.createQuery("Select g from Grade g where g.course = :course", Grade.class)
                 .setParameter("course", course)
                 .getResultStream();
     }
 
-    @RolesAllowed(ROLE_TEACHTER)
+    @RolesAllowed(ROLE_TEACHER)
     public List<Grade> findAllForCourse(Course course) {
         return em.createQuery("Select g from Grade g where g.course = :course", Grade.class)
                 .setParameter("course", course)
@@ -64,7 +64,7 @@ public class GradeRepository {
                 .getResultList();
     }
 
-    @RolesAllowed(ROLE_TEACHTER)
+    @RolesAllowed(ROLE_TEACHER)
     public void saveNew(Grade grade) {
         em.persist(grade);
     }

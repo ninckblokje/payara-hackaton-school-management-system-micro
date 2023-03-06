@@ -42,7 +42,7 @@ public class Course {
     private String name;
 
     @OneToOne
-    private Teacher teachter;
+    private Teacher teacher;
 
     @OneToMany
     private List<Student> enrolledStudents;

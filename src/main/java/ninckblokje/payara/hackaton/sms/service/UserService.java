@@ -26,10 +26,10 @@ import java.util.List;
 import static ninckblokje.payara.hackaton.sms.Constants.*;
 
 @ApplicationScoped
-@RolesAllowed({ROLE_ADMINISTRATION, ROLE_STUDENT, ROLE_TEACHTER})
+@RolesAllowed({ROLE_ADMINISTRATION, ROLE_STUDENT, ROLE_TEACHER})
 public class UserService {
 
-    private final List<String> applicationRoles = List.of(ROLE_ADMINISTRATION, ROLE_STUDENT, ROLE_TEACHTER);
+    private final List<String> applicationRoles = List.of(ROLE_ADMINISTRATION, ROLE_STUDENT, ROLE_TEACHER);
 
     public UserDTO getUserInformation(SecurityContext securityContext) {
         var user = new UserDTO();

@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 import static ninckblokje.payara.hackaton.sms.Constants.ROLE_STUDENT;
-import static ninckblokje.payara.hackaton.sms.Constants.ROLE_TEACHTER;
+import static ninckblokje.payara.hackaton.sms.Constants.ROLE_TEACHER;
 
 @Path("/courses")
 @Transactional
@@ -60,7 +60,7 @@ public class CoursesResource {
 
     @GET
     @Produces(APPLICATION_JSON)
-    @RolesAllowed({ROLE_STUDENT, ROLE_TEACHTER})
+    @RolesAllowed({ROLE_STUDENT, ROLE_TEACHER})
     public List<Course> getAll() {
         return courseRepository.findAll();
     }
@@ -68,7 +68,7 @@ public class CoursesResource {
     @GET
     @Path("/{id}/grades")
     @Produces(APPLICATION_JSON)
-    @RolesAllowed(ROLE_TEACHTER)
+    @RolesAllowed(ROLE_TEACHER)
     public Response getGrades(@PathParam("id") long id) {
         var optCourse = courseRepository.find(id);
         if (optCourse.isEmpty()) {
@@ -85,7 +85,7 @@ public class CoursesResource {
 
     @POST
     @Path("/{id}/grades")
-    @RolesAllowed(ROLE_TEACHTER)
+    @RolesAllowed(ROLE_TEACHER)
     public Response gradeStudents(@PathParam("id") long id, @Valid List<CourseGradeDTO> grades) {
         var optCourse = courseRepository.find(id);
         if (optCourse.isEmpty()) {

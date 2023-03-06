@@ -25,7 +25,7 @@ import ninckblokje.payara.hackaton.sms.entity.Teacher;
 import java.util.List;
 import java.util.Optional;
 
-import static ninckblokje.payara.hackaton.sms.Constants.ROLE_ADMINISTRATION;
+import static ninckblokje.payara.hackaton.sms.Constants.*;
 
 @RequestScoped
 @RolesAllowed(ROLE_ADMINISTRATION)
@@ -41,6 +41,18 @@ public class TeacherRepository {
 
     public List<Teacher> findAll() {
         return em.createQuery("Select t from Teacher t", Teacher.class).getResultList();
+    }
+
+    @RolesAllowed({ROLE_ADMINISTRATION, ROLE_TEACHER})
+    public Optional<Teacher> findTeacherByEmailAddress(String emailAddress) {
+        var teachers = em.createQuery("Select t from Teacher t where t.emailAddress = :emailAddress", Teacher.class)
+                .setParameter("emailAddress", emailAddress)
+                .getResultList();
+        if (teachers.size() == 1) {
+            return Optional.of(teachers.get(0));
+        } else {
+            return Optional.empty();
+        }
     }
 
     public void saveNew(Teacher teacher) {

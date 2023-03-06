@@ -44,7 +44,7 @@ public class LoginResource {
 
     @GET
     @Produces(APPLICATION_JSON)
-    @RolesAllowed({ROLE_ADMINISTRATION, ROLE_STUDENT, ROLE_TEACHTER})
+    @RolesAllowed({ROLE_ADMINISTRATION, ROLE_STUDENT, ROLE_TEACHER})
     public UserDTO login(@Context HttpServletRequest request, @Context SecurityContext secContext) {
         request.getSession(true);
         return service.getUserInformation(secContext);
@@ -55,7 +55,7 @@ public class LoginResource {
 
     @GET
     @Path("/logout")
-    @RolesAllowed({ROLE_ADMINISTRATION, ROLE_STUDENT, ROLE_TEACHTER})
+    @RolesAllowed({ROLE_ADMINISTRATION, ROLE_STUDENT, ROLE_TEACHER})
     public void logout(@Context HttpServletRequest request) throws ServletException {
         request.getSession().invalidate();
         request.logout();

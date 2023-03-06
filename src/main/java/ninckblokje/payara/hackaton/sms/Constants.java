@@ -22,5 +22,5 @@ public final class Constants {
 
     public static final String ROLE_ADMINISTRATION = "administration";
     public static final String ROLE_STUDENT = "student";
-    public static final String ROLE_TEACHTER = "teacher";
+    public static final String ROLE_TEACHER = "teacher";
 }
