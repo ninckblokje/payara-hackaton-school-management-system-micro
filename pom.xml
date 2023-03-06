@@ -159,12 +159,46 @@
                             <key>--logProperties</key>
                             <value>src/main/payara/logging.properties</value>
                         </option>
-<!--                        <option>-->
-<!--                            <key>&#45;&#45;logProperties</key>-->
-<!--                            <value>src/main/payara/logging-debug.properties</value>-->
-<!--                        </option>-->
+                        <!--                        <option>-->
+                        <!--                            <key>&#45;&#45;logProperties</key>-->
+                        <!--                            <value>src/main/payara/logging-debug.properties</value>-->
+                        <!--                        </option>-->
                     </commandLineOptions>
                     <contextRoot>/</contextRoot>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <from>
+                        <image>
+                            payara/micro:${payara.version}-jdk17
+                        </image>
+                    </from>
+                    <to>
+                        <image>ninckblokje/${project.name}</image>
+                    </to>
+                    <container>
+                        <appRoot>/opt/payara/${project.name}</appRoot>
+                        <args>
+                            <arg>--autoBindHttp</arg>
+                            <arg>--autoBindSsl</arg>
+                            <arg>--postbootcommandfile</arg>
+                            <arg>/opt/payara/${project.name}/post-boot-commands.txt</arg>
+                            <arg>--deploy</arg>
+                            <arg>/opt/payara/${project.name}</arg>
+                        </args>
+                    </container>
+                    <extraDirectories>
+                        <paths>
+                            <path>
+                                <from>src/main/payara/docker</from>
+                                <into>/opt/payara/${project.name}</into>
+                            </path>
+                        </paths>
+                    </extraDirectories>
                 </configuration>
             </plugin>
         </plugins>
