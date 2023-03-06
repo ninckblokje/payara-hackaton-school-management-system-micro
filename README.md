@@ -1,6 +1,6 @@
 # payara-hackaton-school-management-system
 
-This is my solution for the Payara hackaton. Unfortunately I am far from finished :disappointed: :disappointed: :disappointed:
+This is my solution for the Payara hackaton. I learned a lot about Payara Micro and I enjoyed building this application. Unfortunately I am far from finished :disappointed: :disappointed: :disappointed:
 
 I decided to build a school management system. Payara set the following functional requirements:
 - Student Information
